@@ -3,7 +3,6 @@ import wx
 
 
 class Visualisation(wx.Frame):
-
     patch = ""
 
     def __init__(self, parent, title):
@@ -13,7 +12,6 @@ class Visualisation(wx.Frame):
         self.Centre()
 
     def init(self):
-
         panel = wx.Panel(self)
 
         font = wx.SystemSettings.GetFont(wx.SYS_SYSTEM_FONT)
@@ -30,8 +28,8 @@ class Visualisation(wx.Frame):
 
         hbox12 = wx.BoxSizer(wx.HORIZONTAL)
         wildcard = "TXT and CSV files (*.txt; *.csv)|*.txt; *.csv"
-        tc = wx.FilePickerCtrl(panel, message="Select file", wildcard=wildcard, style=wx.FLP_USE_TEXTCTRL, size=(390, 25))
-        self.patch = tc.GetPath()
+        tc = wx.FilePickerCtrl(panel, message="Select file", wildcard=wildcard, style=wx.FLP_USE_TEXTCTRL,
+                               size=(390, 25))
         hbox12.Add(tc, proportion=1)
         vbox.Add(hbox12, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, border=10)
 
@@ -45,7 +43,8 @@ class Visualisation(wx.Frame):
 
         hbox22 = wx.BoxSizer(wx.HORIZONTAL)
         wildcard = "TXT and CSV files (*.txt; *.csv)|*.txt; *.csv"
-        tc2 = wx.FilePickerCtrl(panel, message="Select file", wildcard=wildcard, style=wx.FLP_USE_TEXTCTRL, size=(390, 25))
+        tc2 = wx.FilePickerCtrl(panel, message="Select file", wildcard=wildcard, style=wx.FLP_USE_TEXTCTRL,
+                                size=(390, 25))
         hbox22.Add(tc2, proportion=1)
         vbox.Add(hbox22, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, border=10)
 
@@ -68,6 +67,17 @@ class Visualisation(wx.Frame):
 
         vbox.Add((-1, 25))
 
+        hbox6 = wx.BoxSizer(wx.HORIZONTAL)
+        btn1 = wx.Button(panel, label='VISUALIZE', size=(90, 30))
+        # for i in [1, 5, 20, 30, 40, 60]:
+        #     o = KnnVisualisation2d(tc.GetPath(), i)
+        #     o.knn_comparison()
+        # btn1.Bind(wx.EVT_BUTTON, )
+        hbox6.Add(btn1)
+        vbox.Add(hbox6, flag=wx.ALIGN_RIGHT | wx.RIGHT, border=10)
+
+        vbox.Add((-1, 25))
+
         hbox4 = wx.BoxSizer(wx.HORIZONTAL)
         st3 = wx.StaticText(panel, label='Visualisation: ')
         st3.SetFont(font)
@@ -79,25 +89,15 @@ class Visualisation(wx.Frame):
         hbox5.Add(tc2, proportion=1, flag=wx.EXPAND)
         vbox.Add(hbox5, proportion=1, flag=wx.LEFT | wx.RIGHT | wx.EXPAND, border=10)
 
-        vbox.Add((-1, 25))
-
-
-        hbox6 = wx.BoxSizer(wx.HORIZONTAL)
-        btn1 = wx.Button(panel, label='VISUALIZE', size=(90, 30))
-        hbox6.Add(btn1)
-        vbox.Add(hbox6, flag=wx.ALIGN_RIGHT | wx.RIGHT, border=10)
 
         panel.SetSizer(vbox)
 
 
-
 def main():
-
     app = wx.App()
     ex = Visualisation(None, title='visualize')
     ex.Show()
     app.MainLoop()
-    print("fff", Visualisation.patch, "vvvv")
 
 
 if __name__ == '__main__':
