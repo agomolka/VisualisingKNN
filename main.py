@@ -1,5 +1,6 @@
 import os
 import wx
+import visualisation
 
 
 class Visualisation(wx.Frame):
@@ -72,7 +73,7 @@ class Visualisation(wx.Frame):
         # for i in [1, 5, 20, 30, 40, 60]:
         #     o = KnnVisualisation2d(tc.GetPath(), i)
         #     o.knn_comparison()
-        # btn1.Bind(wx.EVT_BUTTON, )
+        btn1.Bind(wx.EVT_BUTTON, )
         hbox6.Add(btn1)
         vbox.Add(hbox6, flag=wx.ALIGN_RIGHT | wx.RIGHT, border=10)
 
