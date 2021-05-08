@@ -28,8 +28,8 @@ class Visualisation(wx.Frame):
         vbox.Add(hbox11, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, border=10)
 
         hbox12 = wx.BoxSizer(wx.HORIZONTAL)
-        wildcard = "TXT and CSV files (*.txt; *.csv)|*.txt; *.csv"
-        tc = wx.FilePickerCtrl(panel, message="Select file", wildcard=wildcard, style=wx.FLP_USE_TEXTCTRL,
+        wildcard = "CSV file (*.csv)|*.csv|Txt file (*.txt)|*.txt||"
+        tc = wx.FilePickerCtrl(panel, message="Select training set", wildcard=wildcard, style=wx.FLP_USE_TEXTCTRL,
                                size=(390, 25))
         hbox12.Add(tc, proportion=1)
         vbox.Add(hbox12, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, border=10)
@@ -43,8 +43,8 @@ class Visualisation(wx.Frame):
         vbox.Add(hbox21, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, border=10)
 
         hbox22 = wx.BoxSizer(wx.HORIZONTAL)
-        wildcard = "TXT and CSV files (*.txt; *.csv)|*.txt; *.csv"
-        tc2 = wx.FilePickerCtrl(panel, message="Select file", wildcard=wildcard, style=wx.FLP_USE_TEXTCTRL,
+        wildcard = "CSV file (*.csv)|*.csv|Txt file (*.txt)|*.txt||"
+        tc2 = wx.FilePickerCtrl(panel, message="Select test set", wildcard=wildcard, style=wx.FLP_USE_TEXTCTRL,
                                 size=(390, 25))
         hbox22.Add(tc2, proportion=1)
         vbox.Add(hbox22, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, border=10)
@@ -73,7 +73,7 @@ class Visualisation(wx.Frame):
         # for i in [1, 5, 20, 30, 40, 60]:
         #     o = KnnVisualisation2d(tc.GetPath(), i)
         #     o.knn_comparison()
-        btn1.Bind(wx.EVT_BUTTON, )
+        # btn1.Bind(wx.EVT_BUTTON, )
         hbox6.Add(btn1)
         vbox.Add(hbox6, flag=wx.ALIGN_RIGHT | wx.RIGHT, border=10)
 
