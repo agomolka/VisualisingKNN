@@ -79,16 +79,16 @@ class Visualisation(wx.Frame):
 
         vbox.Add((-1, 25))
 
-        hbox4 = wx.BoxSizer(wx.HORIZONTAL)
-        st3 = wx.StaticText(panel, label='Visualisation: ')
-        st3.SetFont(font)
-        hbox4.Add(st3, flag=wx.RIGHT, border=8)
-        vbox.Add(hbox4, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, border=10)
-
-        hbox5 = wx.BoxSizer(wx.HORIZONTAL)
-        tc2 = wx.TextCtrl(panel, style=wx.TE_MULTILINE)
-        hbox5.Add(tc2, proportion=1, flag=wx.EXPAND)
-        vbox.Add(hbox5, proportion=1, flag=wx.LEFT | wx.RIGHT | wx.EXPAND, border=10)
+        # hbox4 = wx.BoxSizer(wx.HORIZONTAL)
+        # st3 = wx.StaticText(panel, label='Visualisation: ')
+        # st3.SetFont(font)
+        # hbox4.Add(st3, flag=wx.RIGHT, border=8)
+        # vbox.Add(hbox4, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, border=10)
+        #
+        # hbox5 = wx.BoxSizer(wx.HORIZONTAL)
+        # tc2 = wx.TextCtrl(panel, style=wx.TE_MULTILINE)
+        # hbox5.Add(tc2, proportion=1, flag=wx.EXPAND)
+        # vbox.Add(hbox5, proportion=1, flag=wx.LEFT | wx.RIGHT | wx.EXPAND, border=10)
 
 
         panel.SetSizer(vbox)
