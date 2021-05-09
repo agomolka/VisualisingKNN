@@ -20,7 +20,7 @@ class KnnVisualisation2d:
     def knn_comparison(self):
 
 
-        pframe = wxmplot.PlotFrame()
+        # pframe = wxmplot.PlotFrame()
         sizer = wx.BoxSizer(wx.VERTICAL)
         x = self.data[["X", "Y"]].values
         y = self.data["class"].astype(int).values
