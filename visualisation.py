@@ -18,10 +18,6 @@ class KnnVisualisation2d:
         self.k = k
 
     def knn_comparison(self):
-
-
-        # pframe = wxmplot.PlotFrame()
-        sizer = wx.BoxSizer(wx.VERTICAL)
         x = self.data[["X", "Y"]].values
         y = self.data["class"].astype(int).values
         clf = neighbors.KNeighborsClassifier(n_neighbors=self.k)
@@ -33,9 +29,6 @@ class KnnVisualisation2d:
         plt.ylabel("Y")
         plt.title("k-NN with k=" + str(self.k))
         plt.show()
-        # pframe.plot_decision_regions(x, y, clf=clf, legend=2)
-        sizer.Add(plt, 1, wx.EXPAND)
-        sizer.Show()
         # pframe.Show()
 
 
@@ -43,10 +36,8 @@ class KnnVisualisation2d:
 def main():
     data2 = pd.read_csv("archive/concertriccir2.csv")
     for i in [1, 5, 20, 30, 40, 60]:
-        app = wx.App()
         window = KnnVisualisation2d(data2, i)
         window.knn_comparison()
-        app.MainLoop()
 
 if __name__ == '__main__':
     main()

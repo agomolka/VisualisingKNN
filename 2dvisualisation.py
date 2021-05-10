@@ -7,13 +7,14 @@ import wxmplot
 import seaborn as sns
 from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigureCanvas
 from matplotlib.figure import Figure
+import wx.lib.mixins.inspection as wit
+
 
 
 class KnnVisualisation2d(wx.Panel):
     train_set = ""
     data = ""
     k = 1
-
 
     def __init__(self, parent, data, k):
         # super(KnnVisualisation2d, self).__init__(data, k)
@@ -27,7 +28,7 @@ class KnnVisualisation2d(wx.Panel):
         self.ax = self.figure.add_subplot(111)
         # sns.pairplot(self.data, height=2, hue="class", markers=["o", "s"])
         sns.FacetGrid(self.data, size=5, hue="class").map(plt.scatter, "X", "Y").add_legend()
-        self.canvas =FigureCanvas(self, -1, self.figure)
+        self.canvas = FigureCanvas(self, -1, self.figure)
         # plt.show()
         self.sizer = wx.BoxSizer(wx.VERTICAL)
         self.sizer.Add(self.canvas, 1, wx.LEFT | wx.TOP | wx.GROW)
@@ -35,12 +36,12 @@ class KnnVisualisation2d(wx.Panel):
         self.Fit()
 
 
-
 def main():
     data2 = pd.read_csv("archive/concertriccir2.csv")
     for i in [1, 5, 20, 30, 40, 60]:
-        app = wx.App()
-        fr = wx.Frame(None, title='2d - knn', size=(800, 600))
+        app = wit.InspectableApp()
+        fr = wx.Frame(None, title='2d - knn', size=(800,600))
+        # size = (800, 600)
         panel = KnnVisualisation2d(fr, data2, i)
         fr.Show()
         app.MainLoop()
