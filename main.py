@@ -3,8 +3,20 @@ import wx
 import visualisation
 
 
+class OtherFrame(wx.Frame):
+    """
+    Class used for creating frames other than the main one
+    """
+
+    def __init__(self, title, parent=None):
+        wx.Frame.__init__(self, parent=parent, title=title)
+        self.Show()
+
 class Visualisation(wx.Frame):
-    patch = ""
+    """
+    Show main window of application: apply set, and visualize
+    """
+    k_array = [1, 5, 20, 60]
 
     def __init__(self, parent, title):
         super(Visualisation, self).__init__(parent, title=title)
@@ -29,9 +41,9 @@ class Visualisation(wx.Frame):
 
         hbox12 = wx.BoxSizer(wx.HORIZONTAL)
         wildcard = "CSV file (*.csv)|*.csv|Txt file (*.txt)|*.txt||"
-        tc = wx.FilePickerCtrl(panel, message="Select training set", wildcard=wildcard, style=wx.FLP_USE_TEXTCTRL,
+        self.tc = wx.FilePickerCtrl(panel, message="Select training set", wildcard=wildcard, style=wx.FLP_USE_TEXTCTRL,
                                size=(390, 25))
-        hbox12.Add(tc, proportion=1)
+        hbox12.Add(self.tc, proportion=1)
         vbox.Add(hbox12, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, border=10)
 
         vbox.Add((-1, 10))
@@ -51,47 +63,30 @@ class Visualisation(wx.Frame):
 
         vbox.Add((-1, 10))
 
-        hbox31 = wx.BoxSizer(wx.HORIZONTAL)
-        st_class = wx.StaticText(panel, label='How many classes:')
-        st_class.SetFont(font)
-        hbox31.Add(st_class, flag=wx.RIGHT, border=8)
-        vbox.Add(hbox31, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, border=10)
-
-        hbox3 = wx.BoxSizer(wx.HORIZONTAL)
-        cb2 = wx.CheckBox(panel, label='2 class')
-        cb2.SetFont(font)
-        hbox3.Add(cb2, flag=wx.LEFT, border=10)
-        cb3 = wx.CheckBox(panel, label='3 class')
-        cb3.SetFont(font)
-        hbox3.Add(cb3, flag=wx.LEFT, border=10)
-        vbox.Add(hbox3, flag=wx.LEFT, border=10)
-
-        vbox.Add((-1, 25))
-
+        #Visualize button
         hbox6 = wx.BoxSizer(wx.HORIZONTAL)
         btn1 = wx.Button(panel, label='VISUALIZE', size=(90, 30))
-        # for i in [1, 5, 20, 30, 40, 60]:
-        #     o = KnnVisualisation2d(tc.GetPath(), i)
-        #     o.knn_comparison()
-        # btn1.Bind(wx.EVT_BUTTON, )
+        # which k are choosen for iteration in k-nn
+        btn1.Bind(wx.EVT_BUTTON, self.on_new_frame)
+        self.frame_number = len(self.k_array)
+
         hbox6.Add(btn1)
         vbox.Add(hbox6, flag=wx.ALIGN_RIGHT | wx.RIGHT, border=10)
 
         vbox.Add((-1, 25))
-
-        # hbox4 = wx.BoxSizer(wx.HORIZONTAL)
-        # st3 = wx.StaticText(panel, label='Visualisation: ')
-        # st3.SetFont(font)
-        # hbox4.Add(st3, flag=wx.RIGHT, border=8)
-        # vbox.Add(hbox4, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, border=10)
-        #
-        # hbox5 = wx.BoxSizer(wx.HORIZONTAL)
-        # tc2 = wx.TextCtrl(panel, style=wx.TE_MULTILINE)
-        # hbox5.Add(tc2, proportion=1, flag=wx.EXPAND)
-        # vbox.Add(hbox5, proportion=1, flag=wx.LEFT | wx.RIGHT | wx.EXPAND, border=10)
-
-
         panel.SetSizer(vbox)
+
+    def on_new_frame(self, event):
+        path = self.tc.GetPath()
+        visualisation.main(self.k_array, path)
+
+        for i in range(0, len(self.k_array)):
+            title = 'k-nn with k={}'.format(str(self.k_array[i]))
+            frame = OtherFrame(title=title)
+            self.frame_number += 1
+            image_file = f'img/knn' + str(self.k_array[i]) + '.png'
+            png = wx.Image(image_file, wx.BITMAP_TYPE_ANY).ConvertToBitmap()
+            wx.StaticBitmap(frame, -1, png, size=(png.GetWidth(), png.GetHeight()))
 
 
 def main():

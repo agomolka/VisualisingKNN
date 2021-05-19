@@ -10,9 +10,8 @@ class Visualisation3d():
     data = ""
     i = 1
 
-    def __init__(self, data, i):
+    def __init__(self, data):
         self.data = data
-        self.i = i
 
     def show_plot(self):
 
@@ -48,7 +47,7 @@ class Visualisation3d():
 
 def main():
     data = pd.read_csv("archive/Iris.csv")
-    window = Visualisation3d(data, i)
+    window = Visualisation3d(data)
     window.show_plot()
 
 if __name__ == '__main__':
