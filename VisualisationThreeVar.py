@@ -41,13 +41,14 @@ class Visualisation3d():
         ax.w_yaxis.set_ticklabels([])
         ax.set_zlabel("Petal Length [cm]", fontsize=25)
         ax.w_zaxis.set_ticklabels([])
-
+        name = f'img/knn3d.png'
+        plt.savefig(name)
         plt.show()
 
 
-def main():
-    data = pd.read_csv("archive/Iris.csv")
-    window = Visualisation3d(data)
+def main(data):
+    data2 = pd.read_csv(data)
+    window = Visualisation3d(data2)
     window.show_plot()
 
 if __name__ == '__main__':

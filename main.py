@@ -1,7 +1,8 @@
 import os
 import wx
 import visualisation
-
+import VisualisationThreeVar
+import pandas as pd
 
 class OtherFrame(wx.Frame):
     """
@@ -78,15 +79,26 @@ class Visualisation(wx.Frame):
 
     def on_new_frame(self, event):
         path = self.tc.GetPath()
-        visualisation.main(self.k_array, path)
-
-        for i in range(0, len(self.k_array)):
-            title = 'k-nn with k={}'.format(str(self.k_array[i]))
+        data = pd.read_csv(path)
+        if len(data.columns) <= 3:
+            visualisation.main(self.k_array, path)
+            for i in range(0, len(self.k_array)):
+                title = 'k-nn with k={}'.format(str(self.k_array[i]))
+                frame = OtherFrame(title=title)
+                self.frame_number += 1
+                image_file = f'img/knn' + str(self.k_array[i]) + '.png'
+                png = wx.Image(image_file, wx.BITMAP_TYPE_ANY).ConvertToBitmap()
+                wx.StaticBitmap(frame, -1, png, size=(png.GetWidth(), png.GetHeight()))
+        else:
+            VisualisationThreeVar.main(path)
+            title = 'k-nn 3 variables'
             frame = OtherFrame(title=title)
             self.frame_number += 1
-            image_file = f'img/knn' + str(self.k_array[i]) + '.png'
+            image_file = 'img/knn3d.png'
             png = wx.Image(image_file, wx.BITMAP_TYPE_ANY).ConvertToBitmap()
             wx.StaticBitmap(frame, -1, png, size=(png.GetWidth(), png.GetHeight()))
+
+
 
 
 def main():
