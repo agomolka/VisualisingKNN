@@ -31,6 +31,7 @@ class KnnVisualisation2d:
         plt.title("k-NN with k=" + str(self.k))
         name = f'img/knn' + str(self.k) + '.png'
         plt.savefig(name)
+        plt.show()
 
 
 def main(k_array, data):

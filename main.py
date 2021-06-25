@@ -1,8 +1,11 @@
 import os
 import wx
+import VisualisationThreeVarTest
 import visualisation
 import VisualisationThreeVar
+import VisualisationTwoTest
 import pandas as pd
+
 
 class OtherFrame(wx.Frame):
     """
@@ -12,6 +15,7 @@ class OtherFrame(wx.Frame):
     def __init__(self, title, parent=None):
         wx.Frame.__init__(self, parent=parent, title=title)
         self.Show()
+
 
 class Visualisation(wx.Frame):
     """
@@ -57,9 +61,9 @@ class Visualisation(wx.Frame):
 
         hbox22 = wx.BoxSizer(wx.HORIZONTAL)
         wildcard = "CSV file (*.csv)|*.csv|Txt file (*.txt)|*.txt||"
-        tc2 = wx.FilePickerCtrl(panel, message="Select test set", wildcard=wildcard, style=wx.FLP_USE_TEXTCTRL,
+        self.tc2 = wx.FilePickerCtrl(panel, message="Select test set", wildcard=wildcard, style=wx.FLP_USE_TEXTCTRL,
                                 size=(390, 25))
-        hbox22.Add(tc2, proportion=1)
+        hbox22.Add(self.tc2, proportion=1)
         vbox.Add(hbox22, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, border=10)
 
         vbox.Add((-1, 10))
@@ -79,34 +83,47 @@ class Visualisation(wx.Frame):
 
     def on_new_frame(self, event):
         path = self.tc.GetPath()
+        patch_test = self.tc2.GetPath()
         data = pd.read_csv(path)
-        if len(data.columns) <= 3:
-            visualisation.main(self.k_array, path)
-            for i in range(0, len(self.k_array)):
-                title = 'k-nn with k={}'.format(str(self.k_array[i]))
-                frame = OtherFrame(title=title)
-                self.frame_number += 1
-                image_file = f'img/knn' + str(self.k_array[i]) + '.png'
-                png = wx.Image(image_file, wx.BITMAP_TYPE_ANY).ConvertToBitmap()
-                wx.StaticBitmap(frame, -1, png, size=(png.GetWidth(), png.GetHeight()))
+        if patch_test == "":
+            if len(data.columns) <= 3:
+                print("if len(data.columns) <= 3:")
+                visualisation.main(self.k_array, path)
+                for i in range(0, len(self.k_array)):
+                    title = 'k-nn with k={}'.format(str(self.k_array[i]))
+                    frame = OtherFrame(title=title)
+                    self.frame_number += 1
+                    image_file = f'img/knn' + str(self.k_array[i]) + '.png'
+                    png = wx.Image(image_file, wx.BITMAP_TYPE_ANY).ConvertToBitmap()
+                    wx.StaticBitmap(frame, -1, png, size=(png.GetWidth(), png.GetHeight()))
+            else:
+                # print("else")
+                # VisualisationThreeVar.main(path)
+                # title = 'k-nn 3 variables'
+                # frame = OtherFrame(title=title)
+                # self.frame_number += 1
+                # image_file = 'img/knn3d.png'
+                # png = wx.Image(image_file, wx.BITMAP_TYPE_ANY).ConvertToBitmap()
+                # wx.StaticBitmap(frame, -1, png, size=(png.GetWidth(), png.GetHeight()))
+                VisualisationThreeVar.main(path, self.k_array)
         else:
-            VisualisationThreeVar.main(path)
-            title = 'k-nn 3 variables'
-            frame = OtherFrame(title=title)
-            self.frame_number += 1
-            image_file = 'img/knn3d.png'
-            png = wx.Image(image_file, wx.BITMAP_TYPE_ANY).ConvertToBitmap()
-            wx.StaticBitmap(frame, -1, png, size=(png.GetWidth(), png.GetHeight()))
-
-
-
-
+            if len(data.columns) <= 3:
+                VisualisationTwoTest.main(self.k_array, path, patch_test)
+            else:
+                VisualisationThreeVarTest.main(self.k_array, path, patch_test)
+                # for i in range(0, len(self.k_array)):
+                #     title = 'k-nn with k={}'.format(str(self.k_array[i]))
+                #     frame = OtherFrame(title=title)
+                #     self.frame_number += 1
+                #     image_file = f'img/knn' + str(self.k_array[i]) + '.png'
+                    # png = wx.Image(image_file, wx.BITMAP_TYPE_ANY).ConvertToBitmap()
+                    # wx.StaticBitmap(frame, -1, png, size=(png.GetWidth(), png.GetHeight()))
+        print("the ebd")
 def main():
     app = wx.App()
-    ex = Visualisation(None, title='visualize')
+    ex = Visualisation(None, title='k-NN Visualizator')
     ex.Show()
     app.MainLoop()
-
 
 if __name__ == '__main__':
     main()

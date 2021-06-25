@@ -1,55 +1,36 @@
 import pandas as pd
-from mpl_toolkits.mplot3d import Axes3D
-import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
+import webview
+import plotly.express as px
 
 
-class Visualisation3d():
+class Visualisation3d:
     data = ""
     i = 1
 
-    def __init__(self, data):
+    def __init__(self, data, k):
         self.data = data
+        self.k = k
+        self.show_plot()
 
     def show_plot(self):
+        data_columns_values_list = self.data.columns.values.tolist()
+        a = data_columns_values_list[0]
+        b = data_columns_values_list[1]
+        c = data_columns_values_list[2]
+        d = data_columns_values_list[3]
+        f = data_columns_values_list[len(data_columns_values_list)-1]
 
-        feature_columns = ['SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm']
-        X = self.data[feature_columns].values
-        y = self.data['Species'].values
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
-
-        le = LabelEncoder()
-        y = le.fit_transform(y)
-        fig = plt.figure(1, figsize=(20, 15))
-        ax = Axes3D(fig, elev=48, azim=134)
-        ax.scatter(X[:, 0], X[:, 1], X[:, 2], c=y,
-                   cmap=plt.cm.Set1, edgecolor='k', s=X[:, 3] * 50)
-
-        for name, label in [('Virginica', 0), ('Setosa', 1), ('Versicolour', 2)]:
-            ax.text3D(X[y == label, 0].mean(),
-                      X[y == label, 1].mean(),
-                      X[y == label, 2].mean(), name,
-                      horizontalalignment='center',
-                      bbox=dict(alpha=.5, edgecolor='w', facecolor='w'), size=25)
-
-        ax.set_title("3D visualization", fontsize=40)
-        ax.set_xlabel("Sepal Length [cm]", fontsize=25)
-        ax.w_xaxis.set_ticklabels([])
-        ax.set_ylabel("Sepal Width [cm]", fontsize=25)
-        ax.w_yaxis.set_ticklabels([])
-        ax.set_zlabel("Petal Length [cm]", fontsize=25)
-        ax.w_zaxis.set_ticklabels([])
-        name = f'img/knn3d.png'
-        plt.savefig(name)
-        plt.show()
+        fig = px.scatter_3d(self.data, x=b, y=c, z=d, color=f)
+        name = f'knn, k=' + str(self.k)
+        webview.create_window(name, html=fig.to_html())
 
 
-def main(data):
+def main(data, k_array):
     data2 = pd.read_csv(data)
-    window = Visualisation3d(data2)
-    window.show_plot()
+    for i in k_array:
+        Visualisation3d(data2, i)
+    webview.start()
+
 
 if __name__ == '__main__':
     main()
