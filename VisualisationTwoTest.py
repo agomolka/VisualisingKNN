@@ -8,6 +8,11 @@ import webview
 
 
 class KnnVisualisation2dWithTestSet:
+    """
+    Visualisation by plotly k-nn algorithm
+    for two variables
+    in new HTML interavtive window
+    """
 
     def __init__(self, data, data_test, k):
         self.data_train = data
@@ -28,7 +33,6 @@ class KnnVisualisation2dWithTestSet:
 
         a = y_train_float.astype(int)
         y_train = a.astype('str').ravel()
-
         b = y_test_float.astype(int)
         y_test = b.astype('str').ravel()
 

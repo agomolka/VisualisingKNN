@@ -2,11 +2,14 @@ import pandas as pd
 import webview
 import plotly.express as px
 
-
 class Visualisation3d:
     data = ""
     i = 1
-
+    """
+    Visualisation by plotly k-nn algorithm
+    for three variables
+    in new HTML interavtive window
+    """
     def __init__(self, data, k):
         self.data = data
         self.k = k
@@ -24,13 +27,11 @@ class Visualisation3d:
         name = f'knn, k=' + str(self.k)
         webview.create_window(name, html=fig.to_html())
 
-
 def main(data, k_array):
     data2 = pd.read_csv(data)
     for i in k_array:
         Visualisation3d(data2, i)
     webview.start()
-
 
 if __name__ == '__main__':
     main()
