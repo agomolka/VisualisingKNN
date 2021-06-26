@@ -27,11 +27,6 @@ class Visualisation(wx.Frame):
         super(Visualisation, self).__init__(parent, title=title)
         self.init()
         self.Centre()
-        self.Bind(wx.EVT_CLOSE, self.closeWindow)  # Bind the EVT_CLOSE event to closeWindow()
-
-    def closeWindow(self, event):
-        self.Destroy()
-        # self.Destroy()  # This will close the app window.
 
     def init(self):
         panel = wx.Panel(self)
@@ -102,7 +97,7 @@ class Visualisation(wx.Frame):
             else:
                 VisualisationThreeVarTest.main(self.k_array, path, patch_test)
 def main():
-    app = wx.App()
+    app = wx.App(False)
     ex = Visualisation(None, title='k-NN Visualizator')
     ex.Show()
     app.MainLoop()

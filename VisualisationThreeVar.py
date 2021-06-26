@@ -15,23 +15,49 @@ class Visualisation3d:
         self.k = k
         self.show_plot()
 
+    def isSequence(self, i):
+        a = self.data.iloc[0, i]
+        for x in self.data.iloc[1:, i]:
+            if x != a + 1:
+                return False
+            a = x
+        return True
+
     def show_plot(self):
         data_columns_values_list = self.data.columns.values.tolist()
-        a = data_columns_values_list[0]
-        b = data_columns_values_list[1]
-        c = data_columns_values_list[2]
-        d = data_columns_values_list[3]
-        f = data_columns_values_list[len(data_columns_values_list)-1]
+        if len(data_columns_values_list) == 4:
+            a = data_columns_values_list[0]
+            b = data_columns_values_list[1]
+            c = data_columns_values_list[2]
+            d = data_columns_values_list[3]
+            fig = px.scatter_3d(self.data, x=a, y=b, z=c, color=d)
+            name = f'knn, k=' + str(self.k)
+            webview.create_window(name, html=fig.to_html())
+        if (self.isSequence(0)) == False:
+            b = data_columns_values_list[1]
+            c = data_columns_values_list[2]
+            d = data_columns_values_list[3]
+            f = data_columns_values_list[len(data_columns_values_list) - 1]
+            fig = px.scatter_3d(self.data, x=b, y=c, z=d, color=f)
+            name = f'knn, k=' + str(self.k)
+            webview.create_window(name, html=fig.to_html())
+        else:
+            a = data_columns_values_list[0]
+            b = data_columns_values_list[1]
+            c = data_columns_values_list[2]
+            d = data_columns_values_list[3]
+            f = data_columns_values_list[len(data_columns_values_list)-1]
+            fig = px.scatter_3d(self.data, x=b, y=c, z=d, color=f)
+            name = f'knn, k=' + str(self.k)
+            webview.create_window(name, html=fig.to_html())
 
-        fig = px.scatter_3d(self.data, x=b, y=c, z=d, color=f)
-        name = f'knn, k=' + str(self.k)
-        webview.create_window(name, html=fig.to_html())
 
 def main(data, k_array):
     data2 = pd.read_csv(data)
     for i in k_array:
         Visualisation3d(data2, i)
     webview.start()
+
 
 if __name__ == '__main__':
     main()

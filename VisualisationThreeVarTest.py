@@ -1,7 +1,5 @@
 import plotly.graph_objects as go
 import numpy as np
-from sklearn.datasets import make_moons
-from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 import pandas as pd
 import webview
@@ -15,81 +13,230 @@ class KnnVisualisation2dWithTestSet:
         self.data_test = data_test
         self.k = k
 
+    def isSequence(self, i):
+        a = self.data_train.iloc[0, i]
+        for x in self.data_train.iloc[1:, i]:
+            if x != a + 1:
+                return False
+            a = x
+        return True
+
     def visualisation(self):
 
         mesh_size = .02
         margin = 0.25
         data_columns_values_list = self.data_train.columns.values.tolist()
-        X = self.data_train.iloc[:, [0,1,2,3]].values
-        y = self.data_train.iloc[:, [len(data_columns_values_list)-1]].values.ravel()
-        # Load and split data
-        X_train = self.data_train.iloc[:, :-1].values
-        X_test = self.data_test.iloc[:, :-1].values
-        y_train_float = self.data_train.iloc[:, -1:].values
-        y_test_float = self.data_test.iloc[:, -1:].values
 
-        a = data_columns_values_list[0]  # id
-        b = data_columns_values_list[1]  # SepalLengthCm
-        c = data_columns_values_list[2]  # SepalWidthCm
-        d = data_columns_values_list[3]  # PetalLengthCm
-        f = data_columns_values_list[len(data_columns_values_list)-1]  # Species
+        if len(data_columns_values_list) == 4:
+            b = data_columns_values_list[1]
+            c = data_columns_values_list[2]
+            d = data_columns_values_list[3]
+            e = data_columns_values_list[len(data_columns_values_list) - 1]
+            X = self.data_train.iloc[:, [0, 1, 2]].values
+            y = self.data_train.iloc[:, [len(data_columns_values_list) - 1]].values.ravel()
+            # Load and split data
+            X_train = self.data_train.iloc[:, :-1].values
+            X_test = self.data_test.iloc[:, :-1].values
+            y_train_float = self.data_train.iloc[:, -1:].values
+            y_test_float = self.data_test.iloc[:, -1:].values
 
-        if type(y_train_float[1, 0]) != str:
-            a = y_train_float.astype(int)
-            y_train = a.astype('str').ravel()
-            b = y_test_float.astype(int)
-            y_test = b.astype('str').ravel()
-        else:
-            y_train = y_train_float.ravel()
-            y_test = y_test_float.ravel()
+            if type(y_train_float[1, 0]) != str:
+                a = y_train_float.astype(int)
+                y_train = a.astype('str').ravel()
+                b = y_test_float.astype(int)
+                y_test = b.astype('str').ravel()
+            else:
+                y_train = y_train_float.ravel()
+                y_test = y_test_float.ravel()
 
-        # Create a mesh grid on which we will run our model
-        x_min, x_max = X[:, 0].min() - margin, X[:, 0].max() + margin
-        y_min, y_max = X[:, 1].min() - margin, X[:, 1].max() + margin
-        xrange = np.arange(x_min, x_max, mesh_size)
-        yrange = np.arange(y_min, y_max, mesh_size)
-        xx, yy = np.meshgrid(xrange, yrange)
+            # Create a mesh grid on which we will run our model
+            x_min, x_max = X[:, 0].min() - margin, X[:, 0].max() + margin
+            y_min, y_max = X[:, 1].min() - margin, X[:, 1].max() + margin
+            xrange = np.arange(x_min, x_max, mesh_size)
+            yrange = np.arange(y_min, y_max, mesh_size)
+            xx, yy = np.meshgrid(xrange, yrange)
 
-        # # Create classifier, run predictions on grid
-        clf = KNeighborsClassifier(self.k, weights='uniform')
-        clf.fit(X_train, y_train)
-        pred = clf.predict_proba(X_test)
+            # # Create classifier, run predictions on grid
+            clf = KNeighborsClassifier(self.k, weights='uniform')
+            clf.fit(X_train, y_train)
+            pred = clf.predict_proba(X_test)
 
-        # Generate the plot
-        fig = px.scatter_3d(self.data_train, x=b, y=c, z=d, color=f)
+            # Generate the plot
+            fig = px.scatter_3d(self.data_train, x=b, y=c, z=d, color=e)
 
-        unique_target_value = self.data_train[f].unique()
+            unique_target_value = self.data_train[e].unique()
 
-        trace_specs = [
-            [X_train, y_train, unique_target_value[0], 'Train', 'cross'],
-            [X_train, y_train, unique_target_value[1], 'Train', 'diamond'],
-            [X_train, y_train, unique_target_value[2], 'Train', 'circle'],
-            [X_test, y_test, unique_target_value[0], 'Test', 'cross'],
-            [X_test, y_test, unique_target_value[1], 'Test', 'diamond'],
-            [X_test, y_test, unique_target_value[2], 'Test', 'circle']
-        ]
+            trace_specs = [
+                [X_train, y_train, unique_target_value[0], 'Train', 'cross'],
+                [X_train, y_train, unique_target_value[1], 'Train', 'diamond'],
+                [X_test, y_test, unique_target_value[0], 'Test', 'cross'],
+                [X_test, y_test, unique_target_value[1], 'Test', 'diamond']
+            ]
 
-        fig = go.Figure(data=[
-            go.Scatter3d(
-                x=X[y == label, 1],
-                y=X[y == label, 2],
-                z=X[y == label, 3],
-                name=f'{split} Split, Label {label}',
-                mode='markers',
-                marker_symbol=marker
+            fig = go.Figure(data=[
+                go.Scatter3d(
+                    x=X[y == label, 0],
+                    y=X[y == label, 1],
+                    z=X[y == label, 2],
+                    name=f'{split} Split, Label {label}',
+                    mode='markers',
+                    marker_symbol=marker
+                )
+                for X, y, label, split, marker in trace_specs
+            ])
+            fig.update_layout(scene=dict(
+                xaxis_title=b,
+                yaxis_title=c,
+                zaxis_title=d),
+                width=700,
+                # margin=dict(r=20, b=10, l=10, t=10)
             )
-            for X, y, label, split, marker in trace_specs
-        ])
-        fig.update_layout(scene=dict(
-            xaxis_title=b,
-            yaxis_title=c,
-            zaxis_title=d),
-            width=700,
-            # margin=dict(r=20, b=10, l=10, t=10)
-        )
 
-        name = f'knn, k=' + str(self.k)
-        webview.create_window(name, html=fig.to_html())
+            name = f'knn, k=' + str(self.k)
+            webview.create_window(name, html=fig.to_html())
+
+        if (self.isSequence(0)) == False:
+            X = self.data_train.iloc[:, [0, 1, 2]].values
+            y = self.data_train.iloc[:, [len(data_columns_values_list) - 1]].values.ravel()
+            # Load and split data
+            X_train = self.data_train.iloc[:, :-1].values
+            X_test = self.data_test.iloc[:, :-1].values
+            y_train_float = self.data_train.iloc[:, -1:].values
+            y_test_float = self.data_test.iloc[:, -1:].values
+
+            b = data_columns_values_list[1]
+            c = data_columns_values_list[2]
+            d = data_columns_values_list[3]
+            f = data_columns_values_list[len(data_columns_values_list) - 1]
+
+            if type(y_train_float[1, 0]) != str:
+                a = y_train_float.astype(int)
+                y_train = a.astype('str').ravel()
+                b = y_test_float.astype(int)
+                y_test = b.astype('str').ravel()
+            else:
+                y_train = y_train_float.ravel()
+                y_test = y_test_float.ravel()
+
+            # Create a mesh grid on which we will run our model
+            x_min, x_max = X[:, 0].min() - margin, X[:, 0].max() + margin
+            y_min, y_max = X[:, 1].min() - margin, X[:, 1].max() + margin
+            xrange = np.arange(x_min, x_max, mesh_size)
+            yrange = np.arange(y_min, y_max, mesh_size)
+            xx, yy = np.meshgrid(xrange, yrange)
+
+            # # Create classifier, run predictions on grid
+            clf = KNeighborsClassifier(self.k, weights='uniform')
+            clf.fit(X_train, y_train)
+            pred = clf.predict_proba(X_test)
+
+            # Generate the plot
+            fig = px.scatter_3d(self.data_train, x=b, y=c, z=d, color=f)
+
+            unique_target_value = self.data_train[f].unique()
+
+            trace_specs = [
+                [X_train, y_train, unique_target_value[0], 'Train', 'cross'],
+                [X_train, y_train, unique_target_value[1], 'Train', 'diamond'],
+                [X_train, y_train, unique_target_value[2], 'Train', 'circle'],
+                [X_test, y_test, unique_target_value[0], 'Test', 'cross'],
+                [X_test, y_test, unique_target_value[1], 'Test', 'diamond'],
+                [X_test, y_test, unique_target_value[2], 'Test', 'circle']
+            ]
+
+            fig = go.Figure(data=[
+                go.Scatter3d(
+                    x=X[y == label, 0],
+                    y=X[y == label, 1],
+                    z=X[y == label, 2],
+                    name=f'{split} Split, Label {label}',
+                    mode='markers',
+                    marker_symbol=marker
+                )
+                for X, y, label, split, marker in trace_specs
+            ])
+            fig.update_layout(scene=dict(
+                xaxis_title=b,
+                yaxis_title=c,
+                zaxis_title=d),
+                width=700
+            )
+
+            name = f'knn, k=' + str(self.k)
+            webview.create_window(name, html=fig.to_html())
+        else:
+            X = self.data_train.iloc[:, [0, 1, 2, 3]].values
+            y = self.data_train.iloc[:, [len(data_columns_values_list) - 1]].values.ravel()
+            # Load and split data
+            X_train = self.data_train.iloc[:, :-1].values
+            X_test = self.data_test.iloc[:, :-1].values
+            y_train_float = self.data_train.iloc[:, -1:].values
+            y_test_float = self.data_test.iloc[:, -1:].values
+
+            a = data_columns_values_list[0]
+            b = data_columns_values_list[1]
+            c = data_columns_values_list[2]
+            d = data_columns_values_list[3]
+            f = data_columns_values_list[len(data_columns_values_list) - 1]
+
+            if type(y_train_float[1, 0]) != str:
+                a = y_train_float.astype(int)
+                y_train = a.astype('str').ravel()
+                b = y_test_float.astype(int)
+                y_test = b.astype('str').ravel()
+            else:
+                y_train = y_train_float.ravel()
+                y_test = y_test_float.ravel()
+
+            # Create a mesh grid on which we will run our model
+            x_min, x_max = X[:, 0].min() - margin, X[:, 0].max() + margin
+            y_min, y_max = X[:, 1].min() - margin, X[:, 1].max() + margin
+            xrange = np.arange(x_min, x_max, mesh_size)
+            yrange = np.arange(y_min, y_max, mesh_size)
+            xx, yy = np.meshgrid(xrange, yrange)
+
+            # # Create classifier, run predictions on grid
+            clf = KNeighborsClassifier(self.k, weights='uniform')
+            clf.fit(X_train, y_train)
+            pred = clf.predict_proba(X_test)
+
+            # Generate the plot
+            fig = px.scatter_3d(self.data_train, x=b, y=c, z=d, color=f)
+
+            unique_target_value = self.data_train[f].unique()
+
+            trace_specs = [
+                [X_train, y_train, unique_target_value[0], 'Train', 'cross'],
+                [X_train, y_train, unique_target_value[1], 'Train', 'diamond'],
+                [X_train, y_train, unique_target_value[2], 'Train', 'circle'],
+                [X_test, y_test, unique_target_value[0], 'Test', 'cross'],
+                [X_test, y_test, unique_target_value[1], 'Test', 'diamond'],
+                [X_test, y_test, unique_target_value[2], 'Test', 'circle']
+            ]
+
+            fig = go.Figure(data=[
+                go.Scatter3d(
+                    x=X[y == label, 1],
+                    y=X[y == label, 2],
+                    z=X[y == label, 3],
+                    name=f'{split} Split, Label {label}',
+                    mode='markers',
+                    marker_symbol=marker
+                )
+                for X, y, label, split, marker in trace_specs
+            ])
+            fig.update_layout(scene=dict(
+                xaxis_title=b,
+                yaxis_title=c,
+                zaxis_title=d),
+                width=700,
+                # margin=dict(r=20, b=10, l=10, t=10)
+            )
+
+            name = f'knn, k=' + str(self.k)
+            webview.create_window(name, html=fig.to_html())
+
+
 
 
 def main(k_array, data, data_test):
