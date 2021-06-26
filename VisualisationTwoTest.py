@@ -19,6 +19,7 @@ class KnnVisualisation2dWithTestSet:
         self.data_test = data_test
         self.k = k
 
+
     def visualisation(self):
         mesh_size = .02
         margin = 0.25

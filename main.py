@@ -27,6 +27,11 @@ class Visualisation(wx.Frame):
         super(Visualisation, self).__init__(parent, title=title)
         self.init()
         self.Centre()
+        self.Bind(wx.EVT_CLOSE, self.closeWindow)  # Bind the EVT_CLOSE event to closeWindow()
+
+    def closeWindow(self, event):
+        self.Destroy()
+        # self.Destroy()  # This will close the app window.
 
     def init(self):
         panel = wx.Panel(self)
@@ -48,14 +53,14 @@ class Visualisation(wx.Frame):
         vbox.Add((-1, 10))
 
         hbox21 = wx.BoxSizer(wx.HORIZONTAL)
-        st2 = wx.StaticText(panel, label='Choose test set (only .txt or .csv):')
+        st2 = wx.StaticText(panel, label='Choose testing set (only .txt or .csv):')
         st2.SetFont(font)
         hbox21.Add(st2, flag=wx.RIGHT, border=8)
         vbox.Add(hbox21, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, border=10)
 
         hbox22 = wx.BoxSizer(wx.HORIZONTAL)
         wildcard = "CSV file (*.csv)|*.csv|Txt file (*.txt)|*.txt||"
-        self.tc2 = wx.FilePickerCtrl(panel, message="Select test set", wildcard=wildcard, style=wx.FLP_USE_TEXTCTRL, size=(390, 25))
+        self.tc2 = wx.FilePickerCtrl(panel, message="Select testing set", wildcard=wildcard, style=wx.FLP_USE_TEXTCTRL, size=(390, 25))
         hbox22.Add(self.tc2, proportion=1)
         vbox.Add(hbox22, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, border=10)
 
@@ -74,7 +79,7 @@ class Visualisation(wx.Frame):
 
     def on_new_frame(self, event):
         """
-        Checking is there test and train set
+        Checking is there test and train set and starting right algorithm
         """
         path = self.tc.GetPath()
         patch_test = self.tc2.GetPath()
@@ -96,12 +101,14 @@ class Visualisation(wx.Frame):
                 VisualisationTwoTest.main(self.k_array, path, patch_test)
             else:
                 VisualisationThreeVarTest.main(self.k_array, path, patch_test)
-        print("the ebd")
 def main():
     app = wx.App()
     ex = Visualisation(None, title='k-NN Visualizator')
     ex.Show()
     app.MainLoop()
 
+
 if __name__ == '__main__':
     main()
+
+
