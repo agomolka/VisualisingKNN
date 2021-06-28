@@ -1,4 +1,5 @@
-import os
+#!/Users/ola/opt/anaconda3/bin/python3
+import sys
 import wx
 import VisualisationThreeVarTest
 import visualisation
@@ -27,6 +28,13 @@ class Visualisation(wx.Frame):
         super(Visualisation, self).__init__(parent, title=title)
         self.init()
         self.Centre()
+        self.setupEvents()
+
+    def setupEvents(self):
+        self.Bind(wx.EVT_CLOSE, self.onExitApp)
+
+    def onExitApp(self, event):
+        sys.exit()
 
     def init(self):
         panel = wx.Panel(self)

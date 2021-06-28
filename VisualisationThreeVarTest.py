@@ -96,6 +96,7 @@ class KnnVisualisation2dWithTestSet:
             webview.create_window(name, html=fig.to_html())
 
         if (self.isSequence(0)) == False:
+            print("seq")
             X = self.data_train.iloc[:, [0, 1, 2]].values
             y = self.data_train.iloc[:, [len(data_columns_values_list) - 1]].values.ravel()
             # Load and split data

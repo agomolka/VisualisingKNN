@@ -1,9 +1,11 @@
+#!/usr/bin/env python
 import plotly.graph_objects as go
 import numpy as np
 from sklearn.datasets import make_moons
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 import pandas as pd
+
 import webview
 
 
