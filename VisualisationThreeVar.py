@@ -32,16 +32,14 @@ class Visualisation3d:
             c = data_columns_values_list[2]
             d = data_columns_values_list[3]
             fig = px.scatter_3d(self.data, x=a, y=b, z=c, color=d)
-            name = f'knn, k=' + str(self.k)
-            webview.create_window(name, html=fig.to_html())
+
         if (self.isSequence(0)) == False:
             b = data_columns_values_list[1]
             c = data_columns_values_list[2]
             d = data_columns_values_list[3]
             f = data_columns_values_list[len(data_columns_values_list) - 1]
             fig = px.scatter_3d(self.data, x=b, y=c, z=d, color=f)
-            name = f'knn, k=' + str(self.k)
-            webview.create_window(name, html=fig.to_html())
+
         else:
             a = data_columns_values_list[0]
             b = data_columns_values_list[1]
@@ -49,8 +47,8 @@ class Visualisation3d:
             d = data_columns_values_list[3]
             f = data_columns_values_list[len(data_columns_values_list)-1]
             fig = px.scatter_3d(self.data, x=b, y=c, z=d, color=f)
-            name = f'knn, k=' + str(self.k)
-            webview.create_window(name, html=fig.to_html())
+        name = f'knn, k=' + str(self.k)
+        webview.create_window(name, html=fig.to_html())
 
 
 def main(data, k_array):

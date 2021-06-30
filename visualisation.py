@@ -21,8 +21,10 @@ class KnnVisualisation2d:
 
     def knn_comparison(self):
         data_columns_values_list = self.data.columns.values.tolist()
+        a = data_columns_values_list[0]
+        b = data_columns_values_list[1]
         x = self.data.iloc[:, [0, 1]].values
-        y = self.data.iloc[:, [len(data_columns_values_list) - 1]].values.ravel()
+        y = self.data.iloc[:, [len(data_columns_values_list) - 1]].astype(int).values.ravel()
 
         # x = self.data[["X", "Y"]].values
         # y = self.data["class"].astype(int).values
