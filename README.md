@@ -12,6 +12,10 @@ Program for visualization of the variables' space before and after the learning 
 #### ![logo](https://user-images.githubusercontent.com/38247694/131038924-0465b0d7-ca59-43d2-a13b-ce72e200630e.png)
 Mlxtend (machine learning extensions) is a Python library of useful tools for the day-to-day data science tasks.
 
+#### 👩🏻‍🎨 Plotly
+<img src="https://user-images.githubusercontent.com/38247694/131039207-acd3efbc-da58-47d6-b283-c86799a75ee6.png" width="300">
+Plotly develops online data analytics and visualization tools. It offers graphics and analytics tools for different platforms and frameworks like Python, R, and MATLAB. It has a data visualization library plotly.js, an open-source JS library for creating graphs. To let Python use its utilities, plotly.py has been built on top of it. <br/>
+It supports 40+ unique chart types to cover statistical, financial, geographic, scientific, and 3D use cases. It uses D3.js, HTML and CSS, which helps in integrating many interactive functionality like zoom-in and out, or mouse hover
 
 #### </br> 
 
