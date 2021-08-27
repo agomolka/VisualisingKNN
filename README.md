@@ -19,5 +19,5 @@ It supports 40+ unique chart types to cover statistical, financial, geographic, 
 
 #### </br> 
 
-### 🎥  Click the image and see how it works!
+### 🎥 ❗️ Click the image and see how it works! ❗️
 [<img src="https://github.com/axrozwadowska/VisualizingKNN/blob/master/readme-source/Screenshot%202021-08-26%20at%2022.37.05.png?raw=true" width="500">](https://www.youtube.com/watch?v=5TTQDP2-OTg)
