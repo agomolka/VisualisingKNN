@@ -9,7 +9,7 @@
 #### </br>
 #### Visualization tools:
 #### 👩🏻‍🎨 mlxtend.plotting 
-#### ![logo](https://user-images.githubusercontent.com/38247694/131038924-0465b0d7-ca59-43d2-a13b-ce72e200630e.png)
+<img src="https://user-images.githubusercontent.com/38247694/131038924-0465b0d7-ca59-43d2-a13b-ce72e200630e.png" width="200">
 Mlxtend (machine learning extensions) is a Python library of useful tools for the day-to-day data science tasks.
 
 #### 👩🏻‍🎨 Plotly
